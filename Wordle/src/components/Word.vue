@@ -10,7 +10,11 @@ import Letter from "./Letter.vue";
 
 export default defineComponent({
     name: "Word",
-    components: { Letter }
+    components: { Letter },
+    props: {word: {type: String} },
+    setup(props) {
+        console.log(props.word)
+    }
 })
 
 </script>

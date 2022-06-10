@@ -1,6 +1,6 @@
 <template>
     <div id="wordle-viewer">
-        <Word class="flex m-3"/>
+        <Word :word="$props.mainWord" class="flex m-3"/>
     </div>
 </template>
 
@@ -11,7 +11,8 @@ import Word from "./Word.vue";
 
 export default defineComponent({
     name: 'WordleViewer',
-    components: { Word }
+    components: { Word },
+    props: {mainWord: {type: String}}
 })
 </script>
 
