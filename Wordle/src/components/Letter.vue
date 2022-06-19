@@ -3,7 +3,6 @@
     <div id="letter">
       <div class="flex">
         <div class="flex">
-          <!-- Start of component -->
           <div :class="classDiv">
             <div id="header" class="flex items-center">
               <div
@@ -14,12 +13,12 @@
                   cursor
                   maxlength="1"
                   v-model="letter"
+                  disabled="true"
                 />
               </div>
             </div>
           </div>
         </div>
-        <!-- End of component -->
       </div>
     </div>
   </div>
@@ -30,17 +29,19 @@ import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
     name: 'Letter',
+    props: {letter: {type: String}},
     setup(props) {
         var letter
         return {
             letter,
             classInput: 'ml-1 mb-2 border-none outline-none border-2 w-4',
-            classDiv: 'max-w-sm bg-white border-2 border-gray-300 p-2 rounded-md tracking-wide shadow-lg'
+            classDiv: 'max-w-sm bg-white border-2 border-gray-300 p-2 rounded-md tracking-wide shadow-lg',
+            disabledInput: '' //for disabled input status 
         }
     }
 })
 </script>
 
-<style>
+<style lang="postcss">
 
 </style>

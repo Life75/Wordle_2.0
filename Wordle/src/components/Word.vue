@@ -1,6 +1,11 @@
 <template>
     <div id="word">
-        <Letter/>
+        <ul  class="gap-4" v-for="(letter, index) in word" :key="index">
+            <li class="gap-4">
+                <Letter :letter="letter"/>
+            </li>
+        </ul>
+        
     </div>
 </template>
 
@@ -20,4 +25,5 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
+    
 </style>
