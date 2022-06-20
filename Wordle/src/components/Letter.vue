@@ -13,7 +13,7 @@
                   cursor
                   maxlength="1"
                   v-model="letter"
-                  disabled="true"
+                  :disabled="isDisabled"
                 />
               </div>
             </div>
@@ -32,7 +32,11 @@ export default defineComponent({
     props: {letter: {type: String}},
     setup(props) {
         var letter
+        var isDisabled = false
+
+
         return {
+            isDisabled,
             letter,
             classInput: 'ml-1 mb-2 border-none outline-none border-2 w-4',
             classDiv: 'max-w-sm bg-white border-2 border-gray-300 p-2  tracking-wide shadow-lg',
