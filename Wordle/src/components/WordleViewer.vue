@@ -1,10 +1,10 @@
 <template>
     <div id="wordle-viewer" class="content-center justify-center">
-        <Word :word="$props.mainWord" class="flex m-3"/>
-        <Word :word="$props.mainWord" class="flex m-3"/>
-        <Word :word="$props.mainWord" class="flex m-3"/>
-        <Word :word="$props.mainWord" class="flex m-3"/>
-        <Word :word="$props.mainWord" class="flex m-3"/>
+        <Word :word="$props.mainWord" class="wordle"/>
+        <Word :word="$props.mainWord" class="wordle"/>
+        <Word :word="$props.mainWord" class="wordle"/>
+        <Word :word="$props.mainWord" class="wordle"/>
+        <Word :word="$props.mainWord" class="wordle"/>
         <el-button type="" class="bg-black"> Enter </el-button>
     </div>
 </template>
@@ -22,5 +22,8 @@ export default defineComponent({
 </script>
 
 <style>
+.wordle {
+    @apply flex gap-2 m-3
+}
 
 </style>

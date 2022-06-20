@@ -35,7 +35,7 @@ export default defineComponent({
         return {
             letter,
             classInput: 'ml-1 mb-2 border-none outline-none border-2 w-4',
-            classDiv: 'max-w-sm bg-white border-2 border-gray-300 p-2 rounded-md tracking-wide shadow-lg',
+            classDiv: 'max-w-sm bg-white border-2 border-gray-300 p-2  tracking-wide shadow-lg',
             disabledInput: '' //for disabled input status 
         }
     }

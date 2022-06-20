@@ -1,7 +1,7 @@
 <template>
     <div id="word">
-        <ul  class="gap-4" v-for="(letter, index) in word" :key="index">
-            <li class="gap-4">
+        <ul  class="" v-for="(letter, index) in word" :key="index">
+            <li class="">
                 <Letter :letter="letter"/>
             </li>
         </ul>
