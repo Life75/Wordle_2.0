@@ -25,16 +25,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, watch, defineEmits } from "@vue/runtime-core";
+import { ref } from "vue";
 
 export default defineComponent({
     name: 'Letter',
     props: {letter: {type: String}},
-    setup(props) {
-        var letter
+    emits: ['update'],
+    setup(prop, {emit}) {
+        var letter = ref()
         var isDisabled = false
 
+     
 
+
+        watch((letter), (newLetter) => {
+          return emit('update', newLetter);
+        })
         return {
             isDisabled,
             letter,
