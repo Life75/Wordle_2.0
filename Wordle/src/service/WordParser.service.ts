@@ -28,11 +28,12 @@ export default class WordParser {
     }
     
     doesWordExist(word: string | undefined): boolean {
+        this.wordArr = [...this.parseIntoWords(wordList.toString())]
 
-        
+  
         if(word)
         {
-            return this.wordArr.includes(word)
+            return this.wordArr.includes((word).toLowerCase())
         }
         
         else return false 

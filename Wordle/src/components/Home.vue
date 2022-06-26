@@ -1,7 +1,7 @@
 <template>
   <div id="home" class="flex-col p-2">
     <p>Wordle</p>  
-    <WordleViewer :mainWord="currentWord"/>
+    <WordleViewer :mainWord="currentWord" />
   </div>
 </template>
 

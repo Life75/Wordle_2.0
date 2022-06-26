@@ -1,4 +1,4 @@
 export default  interface WordleViewer {
-    userEntry: string, 
+    userEntry: Array<string>, 
     isCompleted: boolean | false
 }
