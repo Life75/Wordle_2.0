@@ -67,7 +67,9 @@ export default defineComponent({
       if (index < this.lengthOfWordle - 1) {
         if (this.checkForCompletion(this.wordleViewer[index])) {
           this.wordleViewer[index].isCompleted = true;
+          console.log()
         }
+
       }
       console.log(this.wordleViewer[index].isCompleted);
     },

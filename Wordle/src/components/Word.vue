@@ -2,7 +2,7 @@
     <div id="word">
         <ul  class="" v-for="(letter, index) in word" :key="index">
             <li class="">
-                <Letter :letter="letter" @update="userEntry(index, $event)" :wordleViewer="wordleViewerRef" />
+                <Letter :word="word" :index="index" :letter="letter" @update="userEntry(index, $event)" :wordleViewer="wordleViewerRef" />
               
             </li>
         </ul>
@@ -18,8 +18,7 @@ import { ref } from "vue";
 export default defineComponent({
     name: "Word",
     components: { Letter },
-    props: {word: {type: String}, wordleViewer: {type: Object as PropType<IWordleViewer>} },
-    emits: ['update-wordle-viewer'],
+    props: {word: {type: String}, wordleViewer: {type: Object as PropType<IWordleViewer>}},
     setup(props) {
         var wordleViewerRef = ref(props.wordleViewer)
         console.log(wordleViewerRef.value)
