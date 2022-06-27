@@ -2,7 +2,7 @@
   <div>
     <div id="letter">
       <div class="flex">
-        <div class="flex">
+        <div class="flex border-4 border-gray-400">
           <div :class="classDiv">
             <div id="header" class="flex items-center">
               <div class="text-xl border-orange-400 focus:border-cyan-300">
@@ -10,7 +10,7 @@
                   :class="classInput"
                   cursor
                   maxlength="1"
-                  v-model="letter"
+                  v-model="userLetter"
                   :disabled="isDisabledCheck()"
                 />
               </div>
@@ -42,11 +42,11 @@ export default defineComponent({
   },
   emits: ["update"],
   setup(prop, { emit }) {
-    var letter = ref();
+    var userLetter = ref();
     var wordleViewerRef = ref(prop.wordleViewer);
-    var classInput = ref("ml-1 mb-2 border-none outline-none border-2 w-4");
+    var classInput = ref("ml-1 mb-2 border-none outline-none border-2 w-4 caret-transparent ");
     var classDiv = ref(
-      "max-w-sm bg-white border-2 border-gray-300 p-2  tracking-wide shadow-lg"
+      "max-w-sm bg-white p-2 tracking-wide shadow-lg "
     );
 
     function dynamicInput() {
@@ -54,12 +54,12 @@ export default defineComponent({
         if (wordleViewerRef?.value.isCompleted) {
           //check for stuff
           if (prop.word && prop.index !== undefined) {
-            if (prop.word[prop.index] == letter.value) {
+            if (prop.word[prop.index] == userLetter.value) {
               classInput.value += ` bg-lime-400`;
               classDiv.value += ` bg-lime-400`;
             } else {
-              if (letter)
-                if (prop.word.includes(letter.value)) {
+              if (userLetter)
+                if (prop.word.includes(userLetter.value)) {
                   classInput.value += ` bg-yellow-300`;
                   classDiv.value += ` bg-yellow-300`;
                 } else {
@@ -70,6 +70,14 @@ export default defineComponent({
           }
         }
     }
+    function clearContents() {
+      userLetter.value = ""
+      if(prop.word)
+      if(prop.index == prop.word?.length - 1  ) {
+        if(wordleViewerRef.value)
+        wordleViewerRef.value.clearContents = false
+      }
+    }
 
     watch(
       wordleViewerRef,
@@ -77,16 +85,19 @@ export default defineComponent({
         if (wordleUpdate?.isCompleted) {
           dynamicInput()
         }
+        if(wordleUpdate?.clearContents) {
+          clearContents()
+        }
       },
       { deep: true }
     );
 
-    watch(letter, (newLetter) => {
+    watch(userLetter, (newLetter) => {
       return emit("update", newLetter);
     });
     return {
       wordleViewerRef,
-      letter,
+      userLetter,
       classInput,
       classDiv,
       disabledInput: "", //for disabled input status
@@ -99,6 +110,7 @@ export default defineComponent({
       }
       return false;
     },
+
   },
 });
 </script>

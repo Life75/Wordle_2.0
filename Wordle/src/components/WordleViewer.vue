@@ -1,24 +1,27 @@
 <template>
   <div id="wordle-viewer" class="content-center justify-center">
+    <Word
+      :word="$props.mainWord"
+      :wordleViewer="wordleViewer.at(0)"
+      @keyup.enter="checkInput"
+      class="wordle"
+    />
     <ul
       v-for="(wordle, index) in wordleViewer"
       :key="index"
       @keyup.enter="checkInput"
     >
-      <Word
-        v-if="index == 0"
-        :word="$props.mainWord"
-        :wordleViewer="wordle"
-        class="wordle"
-      />
       <!--Display the first wordle, when the others are completed then display the next-->
       <Word
-        v-if="wordleViewer.at(index - 1)?.isCompleted"
+        v-if="wordleViewer.at(index - 1)?.isCompleted && index !== 0"
         :word="$props.mainWord"
         :wordleViewer="wordleViewer.at(index)"
         class="wordle"
       />
     </ul>
+    <div class="text-center p-2"> 
+      <p class="text-lg" v-if="wordleViewer.at(lengthOfWordle - 1 )?.isCompleted">{{$props.mainWord}}</p>
+    </div>
   </div>
   <button
     class="bg-slate-500 justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 border border-slate-400 rounded"
@@ -50,7 +53,11 @@ export default defineComponent({
       userEntry.push("");
     }
     for (var i = 0; i < lengthOfWordle; i++) {
-      wordleViewer.value.push({ userEntry: userEntry, isCompleted: false });
+      wordleViewer.value.push({
+        userEntry: userEntry,
+        isCompleted: false,
+        clearContents: false,
+      });
     }
 
     return {
@@ -64,12 +71,16 @@ export default defineComponent({
         if (!element.isCompleted) return element;
       });
 
-      if (index < this.lengthOfWordle - 1) {
+      if (index < this.lengthOfWordle) {
+        console.log(index);
         if (this.checkForCompletion(this.wordleViewer[index])) {
           this.wordleViewer[index].isCompleted = true;
-          console.log()
+          console.log();
+        } else {
+          //clear contents for user
+          this.wordleViewer[index].clearContents = true;
+          console.log(this.wordleViewer[index]);
         }
-
       }
       console.log(this.wordleViewer[index].isCompleted);
     },
@@ -100,6 +111,6 @@ export default defineComponent({
 
 <style>
 .wordle {
-  @apply flex gap-2 m-3;
+  @apply flex gap-2 m-3 ;
 }
 </style>
