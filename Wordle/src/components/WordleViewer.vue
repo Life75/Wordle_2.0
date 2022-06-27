@@ -72,17 +72,13 @@ export default defineComponent({
       });
 
       if (index < this.lengthOfWordle) {
-        console.log(index);
         if (this.checkForCompletion(this.wordleViewer[index])) {
           this.wordleViewer[index].isCompleted = true;
-          console.log();
         } else {
           //clear contents for user
           this.wordleViewer[index].clearContents = true;
-          console.log(this.wordleViewer[index]);
         }
       }
-      console.log(this.wordleViewer[index].isCompleted);
     },
     checkForCompletion(value: WordleViewer) {
       //see if all values have a letter AND check if its a real word, if not clear values
