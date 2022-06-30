@@ -7,11 +7,15 @@
             <div id="header" class="flex items-center">
               <div class="text-xl border-orange-400 focus:border-cyan-300">
                 <input
+                  autofocus  
                   :class="classInput"
                   cursor
                   maxlength="1"
                   v-model="userLetter"
                   :disabled="isDisabledCheck()"
+                  @input="goNextInput()"
+                  :ref="`input-${index}`"
+                  :name="`${index}`"
                 />
               </div>
             </div>
@@ -23,13 +27,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  watch,
-  defineEmits,
-  PropType,
-} from "@vue/runtime-core";
+import { defineComponent, watch, PropType } from "@vue/runtime-core";
 import { ref } from "vue";
+import ILetterFocus from "../Interfaces/ILetterFocus";
 import IWordleViewer from "../Interfaces/IWordleViewer";
 
 export default defineComponent({
@@ -39,15 +39,18 @@ export default defineComponent({
     letter: { type: String },
     wordleViewer: { type: Object as PropType<IWordleViewer> },
     index: { type: Number },
+    letterFocus: { type: Object as PropType<ILetterFocus[]> },
   },
-  emits: ["update"],
+  emits: ["update", "go-to-next-input"],
   setup(prop, { emit }) {
+    var focus = ref()
     var userLetter = ref();
     var wordleViewerRef = ref(prop.wordleViewer);
-    var classInput = ref("ml-1 mb-2 border-none outline-none border-2 w-4 caret-transparent ");
-    var classDiv = ref(
-      "max-w-sm bg-white p-2 tracking-wide shadow-lg "
+    var letterFocusRef = ref(prop.letterFocus);
+    var classInput = ref(
+      "ml-1 mb-2 border-none outline-none border-2 w-4 caret-transparent "
     );
+    var classDiv = ref("max-w-sm bg-white p-2 tracking-wide shadow-lg ");
 
     function dynamicInput() {
       if (wordleViewerRef.value)
@@ -71,22 +74,22 @@ export default defineComponent({
         }
     }
     function clearContents() {
-      userLetter.value = ""
-      if(prop.word)
-      if(prop.index == prop.word?.length - 1  ) {
-        if(wordleViewerRef.value)
-        wordleViewerRef.value.clearContents = false
-      }
+      userLetter.value = "";
+      if (prop.word)
+        if (prop.index == prop.word?.length - 1) {
+          if (wordleViewerRef.value)
+            wordleViewerRef.value.clearContents = false;
+        }
     }
 
     watch(
       wordleViewerRef,
       (wordleUpdate) => {
         if (wordleUpdate?.isCompleted) {
-          dynamicInput()
+          dynamicInput();
         }
-        if(wordleUpdate?.clearContents) {
-          clearContents()
+        if (wordleUpdate?.clearContents) {
+          clearContents();
         }
       },
       { deep: true }
@@ -96,10 +99,12 @@ export default defineComponent({
       return emit("update", newLetter);
     });
     return {
+      focus,
       wordleViewerRef,
       userLetter,
       classInput,
       classDiv,
+      letterFocusRef,
       disabledInput: "", //for disabled input status
     };
   },
@@ -111,7 +116,33 @@ export default defineComponent({
       return false;
     },
 
+    goNextInput() {
+      //will need to emit for word to go to the next letter and
+
+      this.$emit("go-to-next-input", this.index);
+
+      //   const input = this.$refs[`input-1`]
+      //             console.log(input)
+      //           
+
+    },
+
+    focusNow() {
+      console.log('amongus')
+      this.focus = true 
+    //if (this.letterFocusRef) {
+    // console.log('s')
+    //  if (this.index != undefined)
+    //   {
+    //     console.log('focusing ' + this.index)
+    //     this.$nextTick()
+    //     return this.letterFocusRef[this.index].isFocus}
+    //}
+    //return false;
+      
+    },
   },
+
 });
 </script>
 

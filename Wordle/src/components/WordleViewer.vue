@@ -1,4 +1,5 @@
 <template>
+<div>
   <div id="wordle-viewer" class="content-center justify-center">
     <Word
       :word="$props.mainWord"
@@ -29,6 +30,7 @@
   >
     Enter
   </button>
+  </div>
 </template>
 
 <script lang="ts">
