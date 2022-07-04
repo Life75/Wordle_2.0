@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { defineComponent, watch, PropType, onMounted } from "@vue/runtime-core";
+import { propsToAttrMap } from "@vue/shared";
 import { ref } from "vue";
 import ILetterFocus from "../Interfaces/ILetterFocus";
 import IWordleViewer from "../Interfaces/IWordleViewer";
@@ -70,6 +71,12 @@ export default defineComponent({
         }
     }
 
+onMounted(() => {
+  if(wordleViewerRef.value)
+  if(wordleViewerRef.value.focusElement == prop.index) {
+    focusElement()
+  }
+})
     watch(
       wordleViewerRef,
       (wordleUpdate) => {
@@ -79,12 +86,19 @@ export default defineComponent({
         if (wordleUpdate?.clearContents) {
           clearContents();
         }
-        if(wordleUpdate.focusElement) {
-          focusElement()
+        if(wordleUpdate?.focusElement !== undefined) {
+          if(prop.index == wordleUpdate.focusElement)
+
+          { 
+            focusElement()
+
+          }
         }
       },
       { deep: true }
     );
+
+    
 
     watch(userLetter, (newLetter) => {
       return emit("update", newLetter);
@@ -100,12 +114,19 @@ export default defineComponent({
       function goNextInput() {
       //will need to emit for word to go to the next letter and
 
-      emit("go-to-next-input", prop.index);   
+        emit("go-to-next-input", prop.index);
+        if(wordleViewerRef.value){
+        if(prop.index !== undefined){
+        wordleViewerRef.value.focusElement = prop.index + 1
+        
+        }
+
+      }
       }
 
 
     function focusElement() {
-      input.value.focus()
+      input.value!.focus()
     }
 
     return {

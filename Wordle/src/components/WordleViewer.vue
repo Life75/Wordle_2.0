@@ -59,6 +59,7 @@ export default defineComponent({
         userEntry: userEntry,
         isCompleted: false,
         clearContents: false,
+        focusElement: 0
       });
     }
 
@@ -79,6 +80,9 @@ export default defineComponent({
         } else {
           //clear contents for user
           this.wordleViewer[index].clearContents = true;
+          //first input in focus 
+          this.wordleViewer[index].focusElement = 0
+          
         }
       }
     },
