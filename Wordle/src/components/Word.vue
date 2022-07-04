@@ -9,7 +9,6 @@
         :wordleViewer="wordleViewerRef"
         :letterFocus="letterFocus"
         @input="next($event, index)"
-
       />
     </ul>
   </div>
@@ -74,13 +73,15 @@ export default defineComponent({
       }
     },
     next(event: any, index: number) {
-      console.log("inputed");
-      //const input = this.$refs[`input-${1}`].$elfocus()
-      //console.log(input)  this.$nextTick(() => {
-       // const input = this.$refs[`input-${index}`];
-       // console.log(event.target.name)
-//          
-     // })
+      console.log(index);
+      
+      
+        const input = this.$refs
+        //console.log(`input-${index + 1}`)
+        //input[`input-${index + 1}`]
+      /* this.$nextTick(() => {
+                console.log(input[`input-${index}`][0])
+      })*/
     }
   }
 });

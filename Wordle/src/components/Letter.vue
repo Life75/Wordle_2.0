@@ -1,33 +1,18 @@
 <template>
-  <div>
-    <div id="letter">
-      <div class="flex">
-        <div class="flex border-4 border-gray-400">
-          <div :class="classDiv">
-            <div id="header" class="flex items-center">
-              <div class="text-xl border-orange-400 focus:border-cyan-300">
-                <input
-                  autofocus  
-                  :class="classInput"
+  <input
+                  class=" mb-2 border-none outline-none border-2 w-4 caret-transparent text-lg" 
                   cursor
                   maxlength="1"
                   v-model="userLetter"
                   :disabled="isDisabledCheck()"
                   @input="goNextInput()"
-                  :ref="`input-${index}`"
                   :name="`${index}`"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+                  :ref="`input`"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, PropType } from "@vue/runtime-core";
+import { defineComponent, watch, PropType, onMounted } from "@vue/runtime-core";
 import { ref } from "vue";
 import ILetterFocus from "../Interfaces/ILetterFocus";
 import IWordleViewer from "../Interfaces/IWordleViewer";
@@ -43,12 +28,15 @@ export default defineComponent({
   },
   emits: ["update", "go-to-next-input"],
   setup(prop, { emit }) {
-    var focus = ref()
+    const vFocus = {
+      mounted: (el) => el.focus()
+    }
+    const input = ref(null)
     var userLetter = ref();
     var wordleViewerRef = ref(prop.wordleViewer);
     var letterFocusRef = ref(prop.letterFocus);
     var classInput = ref(
-      "ml-1 mb-2 border-none outline-none border-2 w-4 caret-transparent "
+      "ml-1 mb-2 border-none outline-none border-2 w-4 caret-transparent text-lg"
     );
     var classDiv = ref("max-w-sm bg-white p-2 tracking-wide shadow-lg ");
 
@@ -91,6 +79,9 @@ export default defineComponent({
         if (wordleUpdate?.clearContents) {
           clearContents();
         }
+        if(wordleUpdate.focusElement) {
+          focusElement()
+        }
       },
       { deep: true }
     );
@@ -98,8 +89,31 @@ export default defineComponent({
     watch(userLetter, (newLetter) => {
       return emit("update", newLetter);
     });
+
+    
+    function isDisabledCheck() {
+      if (wordleViewerRef.value) {
+        return wordleViewerRef.value.isCompleted;
+      }
+      return false;
+    }
+      function goNextInput() {
+      //will need to emit for word to go to the next letter and
+
+      emit("go-to-next-input", prop.index);   
+      }
+
+
+    function focusElement() {
+      input.value.focus()
+    }
+
     return {
+      input,
+      vFocus,
       focus,
+      goNextInput,
+      isDisabledCheck,
       wordleViewerRef,
       userLetter,
       classInput,
@@ -109,27 +123,10 @@ export default defineComponent({
     };
   },
   methods: {
-    isDisabledCheck() {
-      if (this.wordleViewerRef) {
-        return this.wordleViewerRef.isCompleted;
-      }
-      return false;
-    },
 
-    goNextInput() {
-      //will need to emit for word to go to the next letter and
-
-      this.$emit("go-to-next-input", this.index);
-
-      //   const input = this.$refs[`input-1`]
-      //             console.log(input)
-      //           
-
-    },
 
     focusNow() {
       console.log('amongus')
-      this.focus = true 
     //if (this.letterFocusRef) {
     // console.log('s')
     //  if (this.index != undefined)
@@ -146,4 +143,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="postcss"></style>
+<style>
+.input {
+  @apply text-lg
+}
+</style>
