@@ -9,6 +9,7 @@
         :wordleViewer="wordleViewerRef"
         :letterFocus="letterFocus"
         @input="next($event, index)"
+        @clear-contents-last-input="clearSpecificInput"
       />
     </ul>
   </div>
@@ -82,7 +83,15 @@ export default defineComponent({
       /* this.$nextTick(() => {
                 console.log(input[`input-${index}`][0])
       })*/
-    }
+    },
+
+    clearSpecificInput(index: number) {
+      if(this.wordleViewerRef)
+      this.wordleViewerRef.clearContents = true
+     }
+
+  
+    
   }
 });
 </script>

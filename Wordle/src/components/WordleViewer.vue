@@ -59,7 +59,8 @@ export default defineComponent({
         userEntry: userEntry,
         isCompleted: false,
         clearContents: false,
-        focusElement: 0
+        focusElement: 0,
+        
       });
     }
 

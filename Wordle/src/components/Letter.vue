@@ -1,13 +1,14 @@
 <template>
   <input
-                  class=" mb-2 border-none outline-none border-2 w-4 caret-transparent text-lg" 
-                  cursor
-                  maxlength="1"
-                  v-model="userLetter"
-                  :disabled="isDisabledCheck()"
-                  @input="goNextInput()"
-                  :name="`${index}`"
-                  :ref="`input`"
+    class="mb-2 border-none outline-none border-2 w-4 caret-transparent text-lg"
+    cursor
+    maxlength="1"
+    v-model="userLetter"
+    :disabled="isDisabledCheck()"
+    @input="goNextInput()"
+    :name="`${index}`"
+    :ref="`input`"
+    @keyup.delete="goBackToLastInput()"
   />
 </template>
 
@@ -27,12 +28,12 @@ export default defineComponent({
     index: { type: Number },
     letterFocus: { type: Object as PropType<ILetterFocus[]> },
   },
-  emits: ["update", "go-to-next-input"],
+  emits: ["update", "go-to-next-input", "clear-contents-last-input"],
   setup(prop, { emit }) {
     const vFocus = {
-      mounted: (el) => el.focus()
-    }
-    const input = ref(null)
+      mounted: (el) => el.focus(),
+    };
+    const input = ref(null);
     var userLetter = ref();
     var wordleViewerRef = ref(prop.wordleViewer);
     var letterFocusRef = ref(prop.letterFocus);
@@ -64,6 +65,7 @@ export default defineComponent({
     }
     function clearContents() {
       userLetter.value = "";
+    
       if (prop.word)
         if (prop.index == prop.word?.length - 1) {
           if (wordleViewerRef.value)
@@ -71,12 +73,12 @@ export default defineComponent({
         }
     }
 
-onMounted(() => {
-  if(wordleViewerRef.value)
-  if(wordleViewerRef.value.focusElement == prop.index) {
-    focusElement()
-  }
-})
+    onMounted(() => {
+      if (wordleViewerRef.value)
+        if (wordleViewerRef.value.focusElement == prop.index) {
+          focusElement();
+        }
+    });
     watch(
       wordleViewerRef,
       (wordleUpdate) => {
@@ -86,47 +88,44 @@ onMounted(() => {
         if (wordleUpdate?.clearContents) {
           clearContents();
         }
-        if(wordleUpdate?.focusElement !== undefined) {
-          if(prop.index == wordleUpdate.focusElement)
-
-          { 
-            focusElement()
-
+        if (wordleUpdate?.focusElement !== undefined) {
+          if (prop.index == wordleUpdate.focusElement) {
+            wordleUpdate.focusElement = undefined
+            focusElement();
+            
           }
         }
+
+
+
+        
       },
       { deep: true }
     );
-
-    
 
     watch(userLetter, (newLetter) => {
       return emit("update", newLetter);
     });
 
-    
     function isDisabledCheck() {
       if (wordleViewerRef.value) {
         return wordleViewerRef.value.isCompleted;
       }
       return false;
     }
-      function goNextInput() {
+    function goNextInput() {
       //will need to emit for word to go to the next letter and
 
-        emit("go-to-next-input", prop.index);
-        if(wordleViewerRef.value){
-        if(prop.index !== undefined){
-        wordleViewerRef.value.focusElement = prop.index + 1
-        
+      emit("go-to-next-input", prop.index);
+      if (wordleViewerRef.value) {
+        if (prop.index !== undefined) {
+          wordleViewerRef.value.focusElement = prop.index + 1;
         }
-
       }
-      }
-
+    }
 
     function focusElement() {
-      input.value!.focus()
+      input.value!.focus();
     }
 
     return {
@@ -145,27 +144,21 @@ onMounted(() => {
   },
   methods: {
 
+    goBackToLastInput() {
+      console.log("delete");
 
-    focusNow() {
-      console.log('amongus')
-    //if (this.letterFocusRef) {
-    // console.log('s')
-    //  if (this.index != undefined)
-    //   {
-    //     console.log('focusing ' + this.index)
-    //     this.$nextTick()
-    //     return this.letterFocusRef[this.index].isFocus}
-    //}
-    //return false;
-      
+      if (this.wordleViewerRef && this.wordleViewerRef.focusElement != 0) {
+        this.wordleViewerRef.clearContents = true
+        this.wordleViewerRef.focusElement = 0;
+        
+      }
     },
   },
-
 });
 </script>
 
 <style>
 .input {
-  @apply text-lg
+  @apply text-lg;
 }
 </style>
