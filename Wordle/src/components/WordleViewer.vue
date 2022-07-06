@@ -21,15 +21,18 @@
       />
     </ul>
     <div class="text-center p-2"> 
-      <p class="text-lg" v-if="wordleViewer.at(lengthOfWordle - 1 )?.isCompleted">{{$props.mainWord}}</p>
-    </div>
-  </div>
-  <button
-    class="bg-slate-500 justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 border border-slate-400 rounded"
+      
+        <button
+    class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
     @click="checkInput"
   >
     Enter
   </button>
+  <p class="py-4 text-4xl font-serif" v-if="wordleViewer.at(lengthOfWordle - 1 )?.isCompleted">{{$props.mainWord}}</p>
+    </div>
+    
+  </div>
+
   </div>
 </template>
 

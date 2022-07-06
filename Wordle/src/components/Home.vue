@@ -1,6 +1,6 @@
 <template>
   <div id="home" class="flex-col p-2">
-    <p>Wordle</p>  
+    <p class="text-4xl font-serif">Wordle</p>  
     <WordleViewer :mainWord="currentWord" />
   </div>
 </template>
@@ -27,4 +27,7 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+
+
+</style>

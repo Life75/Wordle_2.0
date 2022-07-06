@@ -1,6 +1,6 @@
 <template>
   <input
-    class="mb-2 border-none outline-none border-2 w-4 caret-transparent text-lg"
+    :class="classInput"
     cursor
     maxlength="1"
     v-model="userLetter"
@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import { defineComponent, watch, PropType, onMounted } from "@vue/runtime-core";
-import { propsToAttrMap } from "@vue/shared";
 import { ref } from "vue";
 import ILetterFocus from "../Interfaces/ILetterFocus";
 import IWordleViewer from "../Interfaces/IWordleViewer";
@@ -30,15 +29,13 @@ export default defineComponent({
   },
   emits: ["update", "go-to-next-input", "clear-contents-last-input"],
   setup(prop, { emit }) {
-    const vFocus = {
-      mounted: (el) => el.focus(),
-    };
+
     const input = ref(null);
     var userLetter = ref();
     var wordleViewerRef = ref(prop.wordleViewer);
     var letterFocusRef = ref(prop.letterFocus);
     var classInput = ref(
-      "ml-1 mb-2 border-none outline-none border-2 w-4 caret-transparent text-lg"
+      " border-none outline-none font-serif border-2 caret-transparent text-4xl w-full h-full text-center "
     );
     var classDiv = ref("max-w-sm bg-white p-2 tracking-wide shadow-lg ");
 
@@ -48,16 +45,13 @@ export default defineComponent({
           //check for stuff
           if (prop.word && prop.index !== undefined) {
             if (prop.word[prop.index] == userLetter.value) {
-              classInput.value += ` bg-lime-400`;
-              classDiv.value += ` bg-lime-400`;
+              classInput.value += ` bg-lime-600`;
             } else {
               if (userLetter)
                 if (prop.word.includes(userLetter.value)) {
-                  classInput.value += ` bg-yellow-300`;
-                  classDiv.value += ` bg-yellow-300`;
+                  classInput.value += ` bg-yellow-400`;
                 } else {
-                  classInput.value += ` bg-red-300`;
-                  classDiv.value += ` bg-red-300`;
+                  classInput.value += ` bg-red-500`;
                 }
             }
           }
@@ -130,7 +124,6 @@ export default defineComponent({
 
     return {
       input,
-      vFocus,
       focus,
       goNextInput,
       isDisabledCheck,

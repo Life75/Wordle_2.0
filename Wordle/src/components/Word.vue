@@ -1,16 +1,18 @@
 <template>
   <div id="word">
     <ul class="" v-for="(letter, index) in word" :key="index">
-      <Letter
-        :word="word"
-        :index="index"
-        :letter="letter"
-        @update="userEntry(index, $event)"
-        :wordleViewer="wordleViewerRef"
-        :letterFocus="letterFocus"
-        @input="next($event, index)"
-        @clear-contents-last-input="clearSpecificInput"
-      />
+      <li class=" w-12 h-16 items-center flex align-middle justify-center mr-3 border-2 border-black border-slate-600 shadow-md">
+        <Letter
+          :word="word"
+          :index="index"
+          :letter="letter"
+          @update="userEntry(index, $event)"
+          :wordleViewer="wordleViewerRef"
+          :letterFocus="letterFocus"
+          @input="next($event, index)"
+          @clear-contents-last-input="clearSpecificInput"
+        />
+      </li>
     </ul>
   </div>
 </template>
@@ -20,7 +22,6 @@ import { defineComponent, PropType } from "@vue/runtime-core";
 import Letter from "./Letter.vue";
 import IWordleViewer from "../Interfaces/IWordleViewer";
 import ILetterFocus from "../Interfaces/ILetterFocus";
-import { useFocus } from '@vueuse/core'
 
 import { ref } from "vue";
 export default defineComponent({
@@ -33,9 +34,7 @@ export default defineComponent({
   setup(props) {
     var wordleViewerRef = ref(props.wordleViewer);
     var letterFocus = ref<ILetterFocus[]>([{ isFocus: true }]); //first value is true, rest should be false
-
-
-
+    console.log(props.word)
     //check how many letters are within the prop, init, and set a focusRef value of false
 
     function focusLogic() {
@@ -75,24 +74,19 @@ export default defineComponent({
     },
     next(event: any, index: number) {
       console.log(index);
-      
-      
-        const input = this.$refs
-        //console.log(`input-${index + 1}`)
-        //input[`input-${index + 1}`]
+
+      const input = this.$refs;
+      //console.log(`input-${index + 1}`)
+      //input[`input-${index + 1}`]
       /* this.$nextTick(() => {
                 console.log(input[`input-${index}`][0])
       })*/
     },
 
     clearSpecificInput(index: number) {
-      if(this.wordleViewerRef)
-      this.wordleViewerRef.clearContents = true
-     }
-
-  
-    
-  }
+      if (this.wordleViewerRef) this.wordleViewerRef.clearContents = true;
+    },
+  },
 });
 </script>
 
