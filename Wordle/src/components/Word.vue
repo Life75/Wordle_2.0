@@ -1,7 +1,7 @@
 <template>
   <div id="word">
     <ul class="" v-for="(letter, index) in word" :key="index">
-      <li class=" w-12 h-16 items-center flex align-middle justify-center mr-3  border-2 border-black border-slate-600 shadow-md">
+      <li class=" w-12 h-16 items-center flex align-middle justify-center mr-1  border-2 border-black shadow-md">
         <Letter
           :word="word"
           :index="index"

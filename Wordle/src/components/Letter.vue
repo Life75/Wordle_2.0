@@ -35,7 +35,7 @@ export default defineComponent({
     var wordleViewerRef = ref(prop.wordleViewer);
     var letterFocusRef = ref(prop.letterFocus);
     var classInput = ref(
-      " border-none outline-none font-semibold border-2 caret-transparent text-4xl w-full h-full text-center "
+      "outline-none font-semibold border-2 uppercase caret-transparent text-4xl w-full h-full text-center "
     );
     var classDiv = ref("max-w-sm bg-white p-2 tracking-wide shadow-lg ");
 
@@ -45,13 +45,13 @@ export default defineComponent({
           //check for stuff
           if (prop.word && prop.index !== undefined) {
             if (prop.word[prop.index] == userLetter.value) {
-              classInput.value += ` bg-lime-600`;
+              classInput.value += ` bg-lime-400`;
             } else {
               if (userLetter)
                 if (prop.word.includes(userLetter.value)) {
-                  classInput.value += ` bg-yellow-400`;
+                  classInput.value += ` bg-yellow-300`;
                 } else {
-                  classInput.value += ` bg-red-500`;
+                  classInput.value += ` bg-red-400`;
                 }
             }
           }
