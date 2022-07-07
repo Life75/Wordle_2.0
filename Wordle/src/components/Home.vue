@@ -1,7 +1,7 @@
 <template>
   <div id="home" class="flex-col p-2">
     <p class="text-4xl font-serif">Wordle</p>  
-    <WordleViewer :mainWord="currentWord" />
+    <WordleViewer :mainWord="currentWord" @reset="resetEvent"/>
   </div>
 </template>
 
@@ -17,12 +17,18 @@ export default defineComponent({
     let currentWord: string
     var wordParser = new WordParser()
     currentWord = wordParser.pullMainWord()
+    //wordParser.pullMainWord()
     
 
     return {
       currentWord
     }
     
+  },
+  methods : {
+    resetEvent() {
+      console.log('reset event')
+    }
   }
 });
 </script>

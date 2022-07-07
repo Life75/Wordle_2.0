@@ -1,38 +1,56 @@
 <template>
-<div>
-  <div id="wordle-viewer" class="content-center justify-center">
-    <Word
-      :word="$props.mainWord"
-      :wordleViewer="wordleViewer.at(0)"
-      @keyup.enter="checkInput"
-      class="wordle"
-    />
-    <ul
-      v-for="(wordle, index) in wordleViewer"
-      :key="index"
-      @keyup.enter="checkInput"
-    >
-      <!--Display the first wordle, when the others are completed then display the next-->
+  <div>
+    <div id="wordle-viewer" class="content-center justify-center">
       <Word
-        v-if="wordleViewer.at(index - 1)?.isCompleted && index !== 0"
         :word="$props.mainWord"
-        :wordleViewer="wordleViewer.at(index)"
+        :wordleViewer="wordleViewer.at(0)"
+        @keyup.enter="checkInput"
         class="wordle"
       />
-    </ul>
-    <div class="text-center p-2"> 
-      
+      <ul
+        v-for="(wordle, index) in wordleViewer"
+        :key="index"
+        @keyup.enter="checkInput"
+      >
+        <!--Display the first wordle, when the others are completed then display the next-->
+        <Word
+          v-if="wordleViewer.at(index - 1)?.isCompleted && index !== 0"
+          :word="$props.mainWord"
+          :wordleViewer="wordleViewer.at(index)"
+          class="wordle"
+        />
+      </ul>
+      <div class="text-center p-2">
         <button
-    class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
-    @click="checkInput"
-  >
-    Enter
-  </button>
-  <p class="py-4 text-4xl font-serif" v-if="wordleViewer.at(lengthOfWordle - 1 )?.isCompleted">{{$props.mainWord}}</p>
-    </div>
-    
-  </div>
+          class="
+            bg-slate-500
+            font-serif
+            justify-center
+            hover:bg-slate-600
+            text-slate-100
+            font-bold
+            py-2
+            px-4
+            mb-2
+            border border-slate-400
+            rounded
+          "
+          @click="checkInput"
+        >
+          Enter
+        </button>
+        <p
+          class="py-4 text-4xl font-serif"
+          v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted"
+        >
+          {{ $props.mainWord }}
+        </p>
 
+        <p v-if="celebrate">
+        celebrate 
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -53,7 +71,7 @@ export default defineComponent({
     //putting these values in to check on if completed
     var wordleViewer = ref<WordleViewer[]>([]);
     var userEntry = [];
-
+    var celebrate = ref(false);
     for (var i = 0; i < lengthOfWordle; i++) {
       userEntry.push("");
     }
@@ -63,13 +81,13 @@ export default defineComponent({
         isCompleted: false,
         clearContents: false,
         focusElement: 0,
-        
       });
     }
 
     return {
       wordleViewer,
       lengthOfWordle,
+      celebrate,
     };
   },
   methods: {
@@ -80,24 +98,42 @@ export default defineComponent({
 
       if (index < this.lengthOfWordle) {
         if (this.checkForCompletion(this.wordleViewer[index])) {
+          //is the mainWord?
+
+          if (this.isWinCondi(this.wordleViewer[index])) {
+            //cut off the array to stop printing
+
+            this.wordleViewer.length = index + 1;
+            this.celebrate = true;
+            //dont print out next and set out celebration
+          }
           this.wordleViewer[index].isCompleted = true;
         } else {
           //clear contents for user
           this.wordleViewer[index].clearContents = true;
-          //first input in focus 
-          this.wordleViewer[index].focusElement = 0
-          
+          //first input in focus
+          this.wordleViewer[index].focusElement = 0;
         }
       }
+    },
+    isWinCondi(value: WordleViewer) {
+      return this.mainWord == this.getUserEntryWord(value);
+    },
+    getUserEntryWord(value: WordleViewer) {
+      var word = "";
+
+      value.userEntry.forEach((element: string) => {
+        word += element;
+      });
+
+      return word;
     },
     checkForCompletion(value: WordleViewer) {
       //see if all values have a letter AND check if its a real word, if not clear values
       var wordParser = new WordParser();
       var word = "";
 
-      value.userEntry.forEach((element: string) => {
-        word += element;
-      });
+      word = this.getUserEntryWord(value);
 
       return (
         this.doAllInputsHaveValues(value) && wordParser.doesWordExist(word)
@@ -111,12 +147,16 @@ export default defineComponent({
       }
       return true;
     },
+    resetGame() {
+      this.$emit("reset", true);
+      console.log(this.mainWord);
+    },
   },
 });
 </script>
 
 <style>
 .wordle {
-  @apply flex gap-2 m-3 ;
+  @apply flex gap-2 m-3;
 }
 </style>
