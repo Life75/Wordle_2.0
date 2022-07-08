@@ -4,4 +4,5 @@ export default  interface WordleViewer {
     clearContents: boolean | false,
     focusElement?: number,
     clearSpecificInputIndex?: number
+    shakeAction?: boolean,
 }

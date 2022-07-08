@@ -5,7 +5,7 @@
         :word="$props.mainWord"
         :wordleViewer="wordleViewer.at(0)"
         @keyup.enter="checkInput"
-        class="wordle"
+        :class="wordleViewer[0].shakeAction ? wordle_shake : `wordle`"
       />
       <ul
         v-for="(wordle, index) in wordleViewer"
@@ -17,7 +17,7 @@
           v-if="wordleViewer.at(index - 1)?.isCompleted && index !== 0"
           :word="$props.mainWord"
           :wordleViewer="wordleViewer.at(index)"
-          class="wordle"
+          :class="wordleViewer[index].shakeAction ? wordle_shake : `wordle`"
         />
       </ul>
       <div class="text-center p-2">
@@ -46,9 +46,7 @@
           {{ $props.mainWord }}
         </p>
 
-        <p v-if="celebrate">
-        celebrate 
-        </p>
+        <p v-if="celebrate">celebrate</p>
       </div>
     </div>
   </div>
@@ -88,6 +86,7 @@ export default defineComponent({
       wordleViewer,
       lengthOfWordle,
       celebrate,
+      wordle_shake: "flex gap-2 m-3 shake",
     };
   },
   methods: {
@@ -111,7 +110,13 @@ export default defineComponent({
         } else {
           //clear contents for user
           this.wordleViewer[index].clearContents = true;
+
+          //shake to show invalidaity in word choice
+          this.wordleViewer[index].shakeAction = true;
+          this.wordleShakeAnimation(index);
+          //this.wordleViewer[index].shakeAction = false;
           //first input in focus
+
           this.wordleViewer[index].focusElement = 0;
         }
       }
@@ -151,12 +156,48 @@ export default defineComponent({
       this.$emit("reset", true);
       console.log(this.mainWord);
     },
+
+    wordleShakeAnimation(index: number) {
+      if (this.wordleViewer.at(index)?.shakeAction) {
+        setTimeout(() => {
+          this.wordleViewer[index].shakeAction = false;
+        }, 1500);
+      }
+    },
   },
 });
 </script>
 
 <style>
 .wordle {
-  @apply flex gap-2 m-3;
+ @apply flex gap-2 m-3
+
+}
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 </style>

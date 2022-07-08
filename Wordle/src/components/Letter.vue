@@ -1,6 +1,6 @@
 <template>
   <input
-    :class="classInput"
+    :class="`${classInput} `"
     cursor
     maxlength="1"
     v-model="userLetter"
@@ -154,4 +154,6 @@ export default defineComponent({
 .input {
   @apply text-lg;
 }
+
+
 </style>
