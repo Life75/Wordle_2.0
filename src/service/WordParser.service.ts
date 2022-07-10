@@ -7,6 +7,8 @@ export default class WordParser {
         //parse into an array 
         this.wordArr = [...this.parseIntoWords(wordList.toString())]
         //this is word of the day to try and acheive 
+        console.log(wordList)
+
         return this.findRandomWord(this.wordArr)
     }
     
