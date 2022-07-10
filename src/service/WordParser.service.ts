@@ -1,13 +1,13 @@
 //pulls in data from function and identifies what the main word is
-import wordList from '../service/GetWordList'
+
 
 export default class WordParser {
     private wordArr : string[] = []
     pullMainWord(): string{
         //parse into an array 
-        this.wordArr = [...this.parseIntoWords(wordList.toString())]
+        this.wordArr = [...this.wordList()]
         //this is word of the day to try and acheive 
-        console.log(wordList)
+        console.log(this.wordList)
 
         return this.findRandomWord(this.wordArr)
     }
@@ -30,7 +30,7 @@ export default class WordParser {
     }
     
     doesWordExist(word: string | undefined): boolean {
-        this.wordArr = [...this.parseIntoWords(wordList.toString())]
+        this.wordArr = [...this.parseIntoWords(this.wordList().toString())]
 
   
         if(word)
@@ -40,9 +40,77 @@ export default class WordParser {
         
         else return false 
     }
+
+    wordList(): Array<string> {
+        const words = [
+            'cigar',
+            'rebut',
+            'sissy',
+            'humph',
+            'awake',
+            'blush',
+            'focal',
+            'evade',
+            'naval',
+            'serve',
+            'heath',
+            'dwarf',
+            'model',
+            'karma',
+            'stink',
+            'grade',
+            'quiet',
+            'bench',
+            'abate',
+            'feign',
+            'major',
+            'death',
+            'fresh',
+            'crust',
+            'stool',
+            'colon',
+            'abase',
+            'marry',
+            'react',
+            'batty',
+            'pride',
+            'floss',
+            'helix',
+            'croak',
+            'staff',
+            'paper',
+            'unfed',
+            'whelp',
+            'trawl',
+            'outdo',
+            'adobe',
+            'crazy',
+            'sower',
+            'repay',
+            'digit',
+            'crate',
+            'cluck',
+            'spike',
+            'mimic',
+            'pound',
+            'maxim',
+            'linen',
+            'unmet',
+            'flesh',
+            'booby',
+            'forth',
+        ]
+         return words
+    }
     
 
 }
+
+
+
+
+
+
 
 
 
