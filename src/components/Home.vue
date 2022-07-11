@@ -17,7 +17,7 @@ export default defineComponent({
     let currentWord: string
     var wordParser = new WordParser()
     currentWord = wordParser.pullMainWord()
-    //wordParser.pullMainWord()
+    console.log(currentWord)
     
 
     return {
