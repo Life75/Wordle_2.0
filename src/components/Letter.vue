@@ -1,6 +1,7 @@
 <template>
   <input
-    :class="`${classInput} `"
+    class="static"
+    :class="{correctStyle: correct, closeStyle: closeToAnswer, wrongStyle: wrong  }"
     cursor
     maxlength="1"
     v-model="userLetter"
@@ -29,6 +30,10 @@ export default defineComponent({
   },
   emits: ["update", "go-to-next-input", "clear-contents-last-input"],
   setup(prop, { emit }) {
+    const correct = ref(false)
+    const closeToAnswer = ref(false)
+    const wrong = ref(false)
+
 
     const input = ref(null);
     var userLetter = ref();
@@ -45,13 +50,17 @@ export default defineComponent({
           //check for stuff
           if (prop.word && prop.index !== undefined) {
             if (prop.word[prop.index] == userLetter.value) {
+              
               classInput.value += ` bg-lime-400`;
+              correct.value = true 
             } else {
               if (userLetter)
                 if (prop.word.includes(userLetter.value)) {
                   classInput.value += ` bg-yellow-300`;
+                  closeToAnswer.value = true 
                 } else {
                   classInput.value += ` bg-red-400`;
+                  wrong.value = true 
                 }
             }
           }
@@ -123,6 +132,10 @@ export default defineComponent({
     }
 
     return {
+      correct, 
+      closeToAnswer,
+      wrong,
+
       input,
       focus,
       goNextInput,
@@ -150,10 +163,28 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="postcss">
 .input {
   @apply text-lg;
 }
+
+.static {
+  @apply outline-none font-semibold border-2 uppercase caret-transparent text-4xl w-full h-full text-center 
+}
+
+.correctStyle { 
+  @apply bg-lime-400
+}
+
+.closeStyle {
+  @apply bg-yellow-300
+}
+
+.wrongStyle {
+  @apply bg-red-400
+}
+
+
 
 
 </style>
