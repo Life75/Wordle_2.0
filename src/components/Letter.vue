@@ -49,16 +49,18 @@ export default defineComponent({
         if (wordleViewerRef?.value.isCompleted) {
           //check for stuff
           if (prop.word && prop.index !== undefined) {
-            if (prop.word[prop.index] == userLetter.value) {
-              
-              classInput.value += ` bg-lime-400`;
+            if (prop.word[prop.index] === userLetter.value) {
               correct.value = true 
+
+              classInput.value += ` bg-lime-400`;
+              //correct.value = true 
             } else {
-              if (userLetter)
+               closeToAnswer.value = true 
                 if (prop.word.includes(userLetter.value)) {
                   classInput.value += ` bg-yellow-300`;
                   closeToAnswer.value = true 
-                } else {
+                } 
+                else if (!prop.word.includes(userLetter.value)) {
                   classInput.value += ` bg-red-400`;
                   wrong.value = true 
                 }

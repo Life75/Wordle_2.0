@@ -43,7 +43,7 @@ export default class WordParser {
 
     wordList(): Array<string> {
 
-        const words = [
+        let words = [
             'cigar',
             'rebut',
             'sissy',
