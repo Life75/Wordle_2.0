@@ -43,7 +43,7 @@ export default class WordParser {
 
     wordList(): Array<string> {
 
-        let words = ['which',
+        let words = ['auzzy','which',
         'there',
         'their',
         'about',

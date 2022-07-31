@@ -33,7 +33,7 @@ export default defineComponent({
     const correct = ref(false)
     const closeToAnswer = ref(false)
     const wrong = ref(false)
-
+    
 
     const input = ref(null);
     var userLetter = ref();
@@ -48,8 +48,10 @@ export default defineComponent({
       if (wordleViewerRef.value)
         if (wordleViewerRef?.value.isCompleted) {
           //check for stuff
+        
           if (prop.word && prop.index !== undefined) {
             if (prop.word[prop.index] === userLetter.value) {
+              //console.log('hey')
               correct.value = true 
 
               classInput.value += ` bg-lime-400`;
@@ -57,10 +59,12 @@ export default defineComponent({
             } else {
                closeToAnswer.value = true 
                 if (prop.word.includes(userLetter.value)) {
+                  //console.log('heyz')
                   classInput.value += ` bg-yellow-300`;
                   closeToAnswer.value = true 
                 } 
                 else if (!prop.word.includes(userLetter.value)) {
+                  //onsole.log('heyzz')
                   classInput.value += ` bg-red-400`;
                   wrong.value = true 
                 }
@@ -92,6 +96,11 @@ export default defineComponent({
         }
         if (wordleUpdate?.clearContents) {
           clearContents();
+          //clear styles as well for reset 
+          correct.value = false;
+          closeToAnswer.value = false;
+          wrong.value = false;
+          //TODO work on fixing quirks of the reset 
         }
         if (wordleUpdate?.focusElement !== undefined) {
           if (prop.index == wordleUpdate.focusElement) {

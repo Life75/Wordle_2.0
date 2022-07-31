@@ -21,32 +21,21 @@
         />
       </ul>
       <div class="text-center p-2">
-        <button
-          class="
-            bg-slate-500
-            font-serif
-            justify-center
-            hover:bg-slate-600
-            text-slate-100
-            font-bold
-            py-2
-            px-4
-            mb-2
-            border border-slate-400
-            rounded
-          "
+        <button v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted" class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
+          @click="resetGame">Try again</button>
+        <button 
+          class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
           @click="checkInput"
         >
           Enter
         </button>
-        <p
-          class="py-4 text-4xl font-serif"
-          v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted"
-        >
-          {{ $props.mainWord }}
-        </p>
+        <div v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted">
+          <p class="py-4 text-4xl font-serif">
+            {{ $props.mainWord }}
+          </p>
 
-        <p v-if="celebrate">celebrate</p>
+        </div>
+        <p v-if="celebrate">celebrate animation</p>
       </div>
     </div>
   </div>
@@ -144,6 +133,23 @@ export default defineComponent({
         this.doAllInputsHaveValues(value) && wordParser.doesWordExist(word)
       );
     },
+    resetWordle() {
+
+   let userEntry: string[] = []
+   for (var i = 0; i < this.lengthOfWordle; i++) {
+     userEntry.push("");
+   }
+
+    this.wordleViewer.forEach((element) => {
+        element.userEntry = userEntry;
+        element.isCompleted = false;
+        element.focusElement = 0;
+        element.clearContents = true;
+    })
+
+
+
+    },
     doAllInputsHaveValues(value: WordleViewer) {
       for (var i = 0; i < value.userEntry.length; i++) {
         if (value.userEntry[i] == "") {
@@ -154,7 +160,9 @@ export default defineComponent({
     },
     resetGame() {
       this.$emit("reset", true);
-      console.log(this.mainWord);
+      //clear wordle contents 
+      this.resetWordle()
+      //console.log(this.mainWord);
     },
 
     wordleShakeAnimation(index: number) {
@@ -170,8 +178,7 @@ export default defineComponent({
 
 <style>
 .wordle {
- @apply flex gap-2 m-3
-
+  @apply flex gap-2 m-3;
 }
 .shake {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
