@@ -106,7 +106,7 @@ export default defineComponent({
           if (prop.index == wordleUpdate.focusElement) {
             wordleUpdate.focusElement = undefined
             focusElement();
-            
+            console.log('focusing ')
           }
         }
 

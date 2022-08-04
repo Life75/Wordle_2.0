@@ -58,6 +58,7 @@ export default defineComponent({
         this.wordleViewerRef.userEntry[index] = emitData;
     },
     focusNextInput(currentIndex: number) {
+      console.log(currentIndex + ' focus here')
       if (currentIndex !== undefined) {
         this.letterFocus[currentIndex].isFocus = false;
         console.log("current ind" + currentIndex);
