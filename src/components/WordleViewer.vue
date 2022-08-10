@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="wordle-viewer" class="content-center justify-center">
-      <Word
+      <Word v-if="reset"
         :word="$props.mainWord"
         :wordleViewer="wordleViewer.at(0)"
         @keyup.enter="checkInput"
@@ -23,7 +23,7 @@
       <div class="text-center p-2">
         <button v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted" class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
           @click="resetGame">Try again</button>
-        <button 
+        <button v-else
           class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
           @click="checkInput"
         >
@@ -54,6 +54,7 @@ export default defineComponent({
   props: { mainWord: { type: String } },
   setup() {
     const lengthOfWordle = 5;
+    let reset = ref(true)
 
     //putting these values in to check on if completed
     var wordleViewer = ref<WordleViewer[]>([]);
@@ -72,6 +73,7 @@ export default defineComponent({
     }
 
     return {
+      reset,
       wordleViewer,
       lengthOfWordle,
       celebrate,
@@ -140,13 +142,21 @@ export default defineComponent({
      userEntry.push("");
    }
 
-    this.wordleViewer.forEach((element) => {
+    this.wordleViewer.forEach((element, index) => {
+
         element.userEntry = userEntry;
         element.isCompleted = false;
-        element.focusElement = 0;
+        element.focusElement = undefined;
         element.clearContents = true;
+
+        if(index === 0) {
+          element.focusElement = 0
+        }
     })
 
+    console.log(this.wordleViewer[0].focusElement)
+    this.reset = false;
+    this.reset = true
 
 
     },

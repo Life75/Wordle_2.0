@@ -1,7 +1,7 @@
 <template>
   <input
     class="static"
-    :class="{correctStyle: correct, closeStyle: closeToAnswer, wrongStyle: wrong  }"
+    :class="{correctStyle: correct, closeStyle: closeToAnswer, wrongStyle: wrong, addBorderStyle: addBorderStyle  }"
     cursor
     maxlength="1"
     v-model="userLetter"
@@ -28,11 +28,12 @@ export default defineComponent({
     index: { type: Number },
     letterFocus: { type: Object as PropType<ILetterFocus[]> },
   },
-  emits: ["update", "go-to-next-input", "clear-contents-last-input"],
+  emits: ["update", "go-to-next-input", "clear-contents-last-input", "apply-border-style"],
   setup(prop, { emit }) {
     const correct = ref(false)
     const closeToAnswer = ref(false)
     const wrong = ref(false)
+    const addBorderStyle = ref(false)
     
 
     const input = ref(null);
@@ -48,10 +49,12 @@ export default defineComponent({
       if (wordleViewerRef.value)
         if (wordleViewerRef?.value.isCompleted) {
           //check for stuff
-        
+          if(letterAppearsTwice(userLetter.value)) {
+              addBorderStyle.value = true
+          //emit }
+          }
           if (prop.word && prop.index !== undefined) {
             if (prop.word[prop.index] === userLetter.value) {
-              //console.log('hey')
               correct.value = true 
 
               classInput.value += ` bg-lime-400`;
@@ -72,6 +75,18 @@ export default defineComponent({
           }
         }
     }
+
+    function letterAppearsTwice(letter: string): boolean {
+      var count = 0;
+      for(var i =0; i < prop.word!.length; i ++) {
+        if(prop.word?.at(i) == letter){ console.log(prop.word?.at(i)); count++}
+        
+      }
+      
+      //returns true if the letter is within the word more than twice 
+      console.log(count)
+      return count >= 2
+    }
     function clearContents() {
       userLetter.value = "";
     
@@ -83,10 +98,15 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      if (wordleViewerRef.value)
+      if(wordleViewerRef.value)
+      wordleViewerRef.value.focusElement = 0
+
+      if (wordleViewerRef.value){
+        console.log(wordleViewerRef.value.focusElement)
         if (wordleViewerRef.value.focusElement == prop.index) {
           focusElement();
-        }
+          console.log('focusing this element with ' + prop.index)
+        }}
     });
     watch(
       wordleViewerRef,
@@ -106,7 +126,6 @@ export default defineComponent({
           if (prop.index == wordleUpdate.focusElement) {
             wordleUpdate.focusElement = undefined
             focusElement();
-            console.log('focusing ')
           }
         }
 
@@ -146,6 +165,7 @@ export default defineComponent({
       correct, 
       closeToAnswer,
       wrong,
+      addBorderStyle,
 
       input,
       focus,
@@ -162,7 +182,6 @@ export default defineComponent({
   methods: {
 
     goBackToLastInput() {
-      console.log("delete");
 
       if (this.wordleViewerRef && this.wordleViewerRef.focusElement != 0) {
         this.wordleViewerRef.clearContents = true
@@ -193,6 +212,10 @@ export default defineComponent({
 
 .wrongStyle {
   @apply bg-red-400
+}
+
+.addBorderStyle {
+  @apply border-cyan-500 border-8
 }
 
 
