@@ -21,7 +21,7 @@
         />
       </ul>
       <div class="text-center p-2">
-        <button v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted" class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
+        <button v-if="wordleViewer.at(lengthOfWordle - 1)?.isCompleted || celebrate" class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
           @click="resetGame">Try again</button>
         <button v-else
           class="bg-slate-500 font-serif justify-center hover:bg-slate-600 text-slate-100 font-bold py-2 px-4 mb-2 border border-slate-400 rounded"
@@ -69,6 +69,7 @@ export default defineComponent({
         isCompleted: false,
         clearContents: false,
         focusElement: 0,
+        shakeAction: false,
       });
     }
 
@@ -93,10 +94,11 @@ export default defineComponent({
           if (this.isWinCondi(this.wordleViewer[index])) {
             //cut off the array to stop printing
 
-            this.wordleViewer.length = index + 1;
+            this.wordleViewer.length = index + 1; //TODO fix problem
             this.celebrate = true;
             //dont print out next and set out celebration
           }
+          console.log(index)
           this.wordleViewer[index].isCompleted = true;
         } else {
           //clear contents for user
@@ -142,13 +144,14 @@ export default defineComponent({
      userEntry.push("");
    }
 
+   // console.log(this.wordleViewer.length = this.lengthOfWordle)
     this.wordleViewer.forEach((element, index) => {
 
         element.userEntry = userEntry;
         element.isCompleted = false;
         element.focusElement = undefined;
         element.clearContents = true;
-
+        element.shakeAction = false;
         if(index === 0) {
           element.focusElement = 0
         }
@@ -157,7 +160,7 @@ export default defineComponent({
     console.log(this.wordleViewer[0].focusElement)
     this.reset = false;
     this.reset = true
-
+    this.celebrate = false
 
     },
     doAllInputsHaveValues(value: WordleViewer) {

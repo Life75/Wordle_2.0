@@ -120,6 +120,7 @@ export default defineComponent({
           correct.value = false;
           closeToAnswer.value = false;
           wrong.value = false;
+          addBorderStyle.value = false;
           //TODO work on fixing quirks of the reset 
         }
         if (wordleUpdate?.focusElement !== undefined) {
@@ -215,7 +216,7 @@ export default defineComponent({
 }
 
 .addBorderStyle {
-  @apply border-cyan-500 border-8
+  @apply border-cyan-500 border-8 
 }
 
 

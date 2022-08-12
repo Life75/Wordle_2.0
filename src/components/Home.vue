@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, ref } from "@vue/runtime-core";
 import WordleViewer from "./WordleViewer.vue";
 import WordParser from '../service/WordParser.service'
 
@@ -14,22 +14,24 @@ export default defineComponent({
   name: "Home",
   components: { WordleViewer },
   setup() {
-    let currentWord: string
+    let currentWord = ref('')
     var wordParser = new WordParser()
-    currentWord = wordParser.pullMainWord()
+    currentWord.value = wordParser.pullMainWord()
     console.log(currentWord)
     
 
+    function resetEvent() {
+      currentWord.value = wordParser.pullMainWord()
+      console.log(currentWord)
+    }
+
     return {
-      currentWord
+      currentWord,
+      resetEvent
     }
     
   },
-  methods : {
-    resetEvent() {
-      console.log('reset event')
-    }
-  }
+
 });
 </script>
 
