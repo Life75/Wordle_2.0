@@ -17,7 +17,6 @@ export default defineComponent({
     let currentWord = ref('')
     var wordParser = new WordParser()
     currentWord.value = wordParser.pullMainWord()
-    console.log(currentWord)
     
 
     function resetEvent() {

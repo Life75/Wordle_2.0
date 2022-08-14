@@ -62,7 +62,6 @@ export default defineComponent({
             } else {
                closeToAnswer.value = true 
                 if (prop.word.includes(userLetter.value)) {
-                  //console.log('heyz')
                   classInput.value += ` bg-yellow-300`;
                   closeToAnswer.value = true 
                 } 
@@ -84,7 +83,6 @@ export default defineComponent({
       }
       
       //returns true if the letter is within the word more than twice 
-      console.log(count)
       return count >= 2
     }
     function clearContents() {
@@ -102,10 +100,8 @@ export default defineComponent({
       wordleViewerRef.value.focusElement = 0
 
       if (wordleViewerRef.value){
-        console.log(wordleViewerRef.value.focusElement)
         if (wordleViewerRef.value.focusElement == prop.index) {
           focusElement();
-          console.log('focusing this element with ' + prop.index)
         }}
     });
     watch(

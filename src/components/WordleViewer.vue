@@ -103,11 +103,9 @@ export default defineComponent({
             //cut off the array to stop printing
             this.copy = [...this.wordleViewer]
             this.wordleViewer.length = index + 1; //TODO fix problem
-            console.log("length of the wordle" + this.wordleViewer.length);
             this.celebrate = true;
             //dont print out next and set out celebration
           }
-          console.log(index);
           this.wordleViewer[index].isCompleted = true;
         } else {
           //clear contents for user
@@ -152,11 +150,9 @@ export default defineComponent({
         userEntry.push("");
       }
 
-      //console.log((this.wordleViewer.length = this.lengthOfWordle));
     
       if(this.wordleViewer.length !== this.lengthOfWordle) {
         this.wordleViewer = [...this.copy]
-        console.log(this.wordleViewer)
       }
 
       
@@ -172,7 +168,6 @@ export default defineComponent({
         }
       });
 
-      console.log(this.wordleViewer[0].focusElement);
       this.reset = false;
       this.reset = true;
       this.celebrate = false;
@@ -189,7 +184,6 @@ export default defineComponent({
       this.$emit("reset", true);
       //clear wordle contents
       this.resetWordle();
-      //console.log(this.mainWord);
     },
 
     wordleShakeAnimation(index: number) {
