@@ -78,7 +78,7 @@ export default defineComponent({
     function letterAppearsTwice(letter: string): boolean {
       var count = 0;
       for(var i =0; i < prop.word!.length; i ++) {
-        if(prop.word?.at(i) == letter){ console.log(prop.word?.at(i)); count++}
+        if(prop.word?.at(i) == letter){ prop.word?.at(i); count++}
         
       }
       

@@ -7,7 +7,6 @@ export default class WordParser {
         //parse into an array 
         this.wordArr = [...this.wordList()]
         //this is word of the day to try and acheive 
-        console.log(this.wordArr)
 
         return this.findRandomWord(this.wordArr)
     }
@@ -42,7 +41,7 @@ export default class WordParser {
     }
 
     wordList(): Array<string> {
-
+        
         let words = ['auzzy','which',
         'there',
         'their',

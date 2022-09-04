@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "@vueuse/core": "^8.7.5",
+    "canvas-confetti": "^1.5.1",
     "element-plus": "^1.0.2-beta.28",
     "random-words": "^1.2.0",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue-confetti": "^2.3.0",
+    "vue-confetti-explosion": "^1.0.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

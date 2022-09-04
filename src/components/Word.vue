@@ -34,7 +34,6 @@ export default defineComponent({
   setup(props) {
     var wordleViewerRef = ref(props.wordleViewer);
     var letterFocus = ref<ILetterFocus[]>([{ isFocus: true }]); //first value is true, rest should be false
-    console.log(props.word)
     //check how many letters are within the prop, init, and set a focusRef value of false
 
     function focusLogic() {
@@ -53,34 +52,27 @@ export default defineComponent({
   methods: {
     userEntry(index: number, emitData: string) {
       //add word to entry
-      //console.log(this.wordleViewerRef?.userEntry.at(index))
       if (this.wordleViewerRef)
         this.wordleViewerRef.userEntry[index] = emitData;
     },
     focusNextInput(currentIndex: number) {
-      console.log(currentIndex + ' focus here')
       if (currentIndex !== undefined) {
         this.letterFocus[currentIndex].isFocus = false;
-        console.log("current ind" + currentIndex);
-        console.log(this.letterFocus[currentIndex].isFocus);
+        (this.letterFocus[currentIndex].isFocus);
 
         if (this.word)
           if (currentIndex < this.word?.length - 1) {
             this.letterFocus[currentIndex + 1].isFocus = true;
 
-            console.log("next" + currentIndex + 1);
-            console.log(this.letterFocus[currentIndex + 1].isFocus);
+          this.letterFocus[currentIndex + 1].isFocus;
           }
       }
     },
     next(event: any, index: number) {
-      console.log(index);
 
       const input = this.$refs;
-      //console.log(`input-${index + 1}`)
       //input[`input-${index + 1}`]
       /* this.$nextTick(() => {
-                console.log(input[`input-${index}`][0])
       })*/
     },
 

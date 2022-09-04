@@ -8,11 +8,7 @@
         @keyup.enter="checkInput"
         :class="wordleViewer[0].shakeAction ? wordle_shake : `wordle`"
       />
-      <ul
-        v-for="(wordle, index) in wordleViewer"
-        :key="index"
-        @keyup.enter="checkInput"
-      >
+      <ul v-for="(wordle, index) in wordleViewer" :key="index" @keyup.enter="checkInput">
         <!--Display the first wordle, when the others are completed then display the next-->
         <Word
           v-if="wordleViewer.at(index - 1)?.isCompleted && index !== 0"
@@ -41,7 +37,12 @@
             {{ $props.mainWord }}
           </p>
         </div>
-        <p v-if="celebrate">celebrate animation</p>
+        <div v-if="celebrate">
+        <span class="flex-col text-center flex items-center justify-center py-5">
+        <p class="text-4xl font-serif ">Nice Job!</p>
+        <ConfettiExplosion :particleCount="150" :force="0.3" class="justify-center"></ConfettiExplosion>
+      </span>
+        </div>
       </div>
     </div>
   </div>
@@ -53,10 +54,11 @@ import { ref } from "vue";
 import Word from "./Word.vue";
 import WordleViewer from "../Interfaces/IWordleViewer";
 import WordParser from "../service/WordParser.service";
+import ConfettiExplosion from "vue-confetti-explosion";
 
 export default defineComponent({
   name: "WordleViewer",
-  components: { Word },
+  components: { Word, ConfettiExplosion },
   props: { mainWord: { type: String } },
   setup() {
     const lengthOfWordle = 5;
@@ -150,12 +152,12 @@ export default defineComponent({
         userEntry.push("");
       }
 
-    
+
       if(this.wordleViewer.length !== this.lengthOfWordle) {
         this.wordleViewer = [...this.copy]
       }
 
-      
+
 
       this.wordleViewer.forEach((element, index) => {
         element.userEntry = userEntry;
